@@ -1241,28 +1241,22 @@ select {
   .nav-sub-list button.is-current { background: #fff; box-shadow: inset 0 0 0 1px var(--green); }
 }
 
-/* 히어로: 한 단으로 쌓고, 이미지는 jwjm.com 배너처럼 상단 스트립으로 */
+/* 태블릿: 2단 유지, 간격만 줄입니다 */
 @media (max-width: 1023px) {
   .hero {
-    display: block;
-    min-height: 0;
-    padding: 0;
+    grid-template-columns: minmax(0, .84fr) minmax(0, 1.16fr);
+    column-gap: 22px;
+    min-height: 356px;
+    padding: 26px 24px 24px;
     border-radius: 18px;
   }
-  .hero-visual {
-    position: relative;
-    inset: auto;
-    z-index: 0;
-    aspect-ratio: 1641 / 616;
-    background-size: cover;
-    background-position: center center;
-  }
-  .hero-visual::after {
-    background: linear-gradient(180deg, rgba(4, 9, 18, .10) 0%, rgba(4, 9, 18, .08) 55%, rgba(7, 13, 24, .98) 100%);
-  }
-  .hero-copy { padding: 4px 26px 0; }
-  .hero-copy h1 { font-size: 25px; }
-  .overview-stats { padding: 22px 26px 26px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .hero-eyebrow { font-size: 9.5px; letter-spacing: .14em; margin-bottom: 8px; }
+  .hero-copy h1 { font-size: 24px; }
+  .overview-sub { font-size: 12.5px; }
+  .overview-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .stat { padding: 9px 11px 8px; }
+  .stat-label { font-size: 11px; }
+  .stat-value { font-size: 19px; }
 }
 
 @media (max-width: 980px) {
@@ -1286,8 +1280,28 @@ select {
 
   .main { padding: 16px 16px 44px; }
 
-  .hero { border-radius: 14px; }
-  .hero-copy { padding: 2px 18px 0; }
+  /* 모바일: 이미지는 상단 배너 스트립으로, 타이틀·스탯은 아래에 */
+  .hero {
+    display: block;
+    min-height: 0;
+    padding: 0;
+    border-radius: 14px;
+  }
+  .hero-visual {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    width: 100%;
+    aspect-ratio: 2.2 / 1;
+    background-size: cover;
+    background-position: 100% 50%;
+  }
+  .hero-visual::after {
+    background:
+      linear-gradient(90deg, rgba(7, 13, 24, .95) 0%, rgba(7, 13, 24, .52) 20%, rgba(7, 13, 24, 0) 42%),
+      linear-gradient(180deg, rgba(4, 9, 18, .12) 0%, rgba(4, 9, 18, .04) 58%, rgba(7, 13, 24, 1) 100%);
+  }
+  .hero-copy { padding: 14px 18px 0; }
   .hero-eyebrow { font-size: 9.5px; letter-spacing: .14em; margin-bottom: 8px; }
   .hero-copy h1 { font-size: 21px; }
   .overview-sub { font-size: 12.5px; margin-top: 8px; }
