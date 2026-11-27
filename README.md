@@ -22,6 +22,7 @@ jeonwoo-portal/
 ├── README.md
 └── assets/
     ├── favicon.svg
+    ├── hero-bg.jpg               메인 히어로 배경 (jwjm.com 메인 비주얼, 고정 배경)
     ├── sample-plan.svg           샘플: 주간 생산계획 간트
     ├── sample-result.svg         샘플: 계획 대비 실적 차트
     ├── sample-defect-crack.svg   샘플: 비전 검사 크랙 캡처
