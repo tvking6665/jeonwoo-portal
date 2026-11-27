@@ -420,6 +420,8 @@ select {
   z-index: 5;
 }
 .nav-sub-list { list-style: none; margin: 0; padding: 0; }
+/* 마지막 메뉴의 드롭다운은 오른쪽 끝을 맞춥니다 (좁은 화면에서 밖으로 나가지 않도록) */
+.nav-list > .nav-item:last-child .nav-sub { left: auto; right: 0; }
 .nav-sub-list li + li { border-top: 1px solid #f1f4f9; }
 .nav-sub-list button {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
