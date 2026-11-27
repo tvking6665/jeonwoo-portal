@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>전우정밀 · 생산 이력 공유 포털</title>
+<meta name="description" content="전우정밀 생산계획 · 생산실적 · 유출불량 히스토리 · 제품 월별판매량 · 소재 월별구매량 공유 포털">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===================== 비밀번호 게이트 ===================== -->
+<section id="gate" class="gate" hidden>
+  <div class="gate-bg" aria-hidden="true"></div>
+  <div class="gate-card">
+    <div class="gate-brand">
+      <span class="brand-badge" aria-hidden="true">JW</span>
+      <div>
+        <p class="gate-company">전우정밀</p>
+        <p class="gate-company-en">JEONWOO PRECISION</p>
+      </div>
+    </div>
+
+    <h1 class="gate-title">생산 이력 공유 포털</h1>
+    <p class="gate-desc">생산계획 · 생산실적 · 유출불량 · 월별 판매/구매량을<br>한 곳에서 확인하세요.</p>
+
+    <form id="gateForm" class="gate-form" autocomplete="off" novalidate>
+      <label class="field-label" for="gatePassword">팀 열람 비밀번호</label>
+      <div class="pw-field">
+        <input id="gatePassword" name="password" type="password" inputmode="text"
+               placeholder="비밀번호를 입력하세요" autocomplete="current-password"
+               aria-describedby="gateError" required>
+        <button type="button" class="pw-toggle" data-action="toggle-pw" data-target="gatePassword"
+                aria-label="비밀번호 표시">보기</button>
+      </div>
+      <p id="gateError" class="form-error" role="alert" hidden></p>
+      <button type="submit" class="btn btn-primary btn-block">입장하기</button>
+    </form>
+
+    <div class="gate-foot">
+      <span>관리자이신가요?</span>
+      <button type="button" class="link-btn" data-action="open-admin-login">관리자 로그인</button>
+    </div>
+  </div>
+
+  <p class="gate-note">전우정밀 관계자 외 접속을 금합니다 · © <span data-year></span> JEONWOO PRECISION</p>
+</section>
+
+<!-- ===================== 앱 본문 ===================== -->
+<div id="app" class="app" hidden>
+
+  <header class="site-header" id="siteHeader">
+    <!-- 상단 유틸리티 바 -->
+    <div class="utilbar">
+      <div class="utilbar-inner">
+        <p class="utilbar-note">
+          <span class="util-dot" aria-hidden="true"></span>
+          생산 이력 공유 포털 <span class="util-sep">·</span> PRODUCTION ARCHIVE
+        </p>
+        <div class="util-actions">
+          <span id="roleBadge" class="role-badge role-team">
+            <span class="dot" aria-hidden="true"></span><span id="roleText">팀 열람</span>
+          </span>
+          <button type="button" id="newPostBtn" class="util-btn is-primary" data-action="new-post" hidden>
+            <span aria-hidden="true">＋</span> 새 글 작성
+          </button>
+          <button type="button" id="adminLoginBtn" class="util-btn" data-action="open-admin-login">관리자 로그인</button>
+          <button type="button" class="util-btn" data-action="logout">나가기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 로고 + 트리 메뉴 -->
+    <div class="header-main">
+      <div class="header-inner">
+        <a class="brand" href="#" data-action="go-home" aria-label="전우정밀 생산 이력 홈">
+          <span class="brand-badge" aria-hidden="true">JW</span>
+          <span class="brand-text">
+            <strong>전우정밀</strong>
+            <small>JEONWOO PRECISION</small>
+          </span>
+        </a>
+
+        <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav">
+          <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="nav-toggle-label">메뉴</span>
+        </button>
+
+        <nav class="site-nav" id="siteNav" aria-label="생산 이력 메뉴">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <button type="button" class="nav-link is-active" data-filter="all">전체</button>
+            </li>
+
+            <li class="nav-item has-sub">
+              <button type="button" class="nav-link" data-sub="production" aria-expanded="false" aria-haspopup="true">
+                생산관리
+                <svg class="chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="nav-sub">
+                <ul class="nav-sub-list">
+                  <li><button type="button" data-filter="plan">생산계획<span class="nav-count" data-navcount="plan">0</span></button></li>
+                  <li><button type="button" data-filter="result">생산실적<span class="nav-count" data-navcount="result">0</span></button></li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="nav-item has-sub">
+              <button type="button" class="nav-link" data-sub="quality" aria-expanded="false" aria-haspopup="true">
+                품질관리
+                <svg class="chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="nav-sub">
+                <ul class="nav-sub-list">
+                  <li><button type="button" data-filter="defect">유출불량 히스토리<span class="nav-count" data-navcount="defect">0</span></button></li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="nav-item has-sub">
+              <button type="button" class="nav-link" data-sub="sales" aria-expanded="false" aria-haspopup="true">
+                영업·자재
+                <svg class="chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="nav-sub">
+                <ul class="nav-sub-list">
+                  <li><button type="button" data-filter="product">제품 월별판매량<span class="nav-count" data-navcount="product">0</span></button></li>
+                  <li><button type="button" data-filter="material">소재 월별구매량<span class="nav-count" data-navcount="material">0</span></button></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- 요약 -->
+    <section class="overview" aria-label="기록 요약">
+      <div class="overview-copy">
+        <h1>생산 이력 한눈에 보기</h1>
+        <p class="overview-sub">계획부터 실적, 유출불량 대책, 월별 판매·구매량까지 — 관련 팀이 같은 기록을 봅니다.</p>
+      </div>
+      <div class="overview-stats" id="heroStats">
+        <div class="stat stat-all">
+          <span class="stat-label"><i class="stat-dot" aria-hidden="true"></i>전체 기록</span>
+          <strong class="stat-value" data-stat="total">0</strong>
+        </div>
+        <div class="stat stat-plan">
+          <span class="stat-label"><i class="stat-dot" aria-hidden="true"></i>생산계획</span>
+          <strong class="stat-value" data-stat="plan">0</strong>
+        </div>
+        <div class="stat stat-result">
+          <span class="stat-label"><i class="stat-dot" aria-hidden="true"></i>생산실적</span>
+          <strong class="stat-value" data-stat="result">0</strong>
+        </div>
+        <div class="stat stat-defect">
+          <span class="stat-label"><i class="stat-dot" aria-hidden="true"></i>유출불량</span>
+          <strong class="stat-value" data-stat="defect">0</strong>
+        </div>
+        <div class="stat stat-product">
+          <span class="stat-label"><i class="stat-dot" aria-hidden="true"></i>제품 판매량</span>
+          <strong class="stat-value" data-stat="product">0</strong>
+        </div>
+        <div class="stat stat-material">
+          <span class="stat-label"><i class="stat-dot" aria-hidden="true"></i>소재 구매량</span>
+          <strong class="stat-value" data-stat="material">0</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- 데모 모드 안내 -->
+    <div id="demoBanner" class="banner" hidden>
+      <span class="banner-icon" aria-hidden="true">ⓘ</span>
+      <p><strong>데모 모드</strong> — 지금은 이 브라우저에만 저장됩니다. <code>config.js</code>에 Supabase 정보를 넣으면 팀원과 실시간으로 공유됩니다.</p>
+    </div>
+
+    <!-- 검색 · 정렬 -->
+    <section class="toolbar" aria-label="검색 및 정렬">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+        <input id="searchInput" type="search" placeholder="제목, 품번, 고객사, 소재, 내용으로 검색" aria-label="검색어" autocomplete="off">
+        <button type="button" class="search-clear" data-action="clear-search" aria-label="검색어 지우기" hidden>×</button>
+      </div>
+
+      <label class="sort-wrap">
+        <span class="sr-only">정렬</span>
+        <select id="sortSelect">
+          <option value="newest">최신순</option>
+          <option value="oldest">오래된순</option>
+        </select>
+      </label>
+    </section>
+
+    <!-- 카테고리 필터 -->
+    <div class="filter-chips" role="group" aria-label="카테고리 필터">
+      <button type="button" class="filter-chip is-active" data-filter="all">
+        전체 <span class="chip-count" data-count="all">0</span>
+      </button>
+      <button type="button" class="filter-chip" data-filter="plan">
+        <i class="chip-dot dot-plan" aria-hidden="true"></i>생산계획 <span class="chip-count" data-count="plan">0</span>
+      </button>
+      <button type="button" class="filter-chip" data-filter="result">
+        <i class="chip-dot dot-result" aria-hidden="true"></i>생산실적 <span class="chip-count" data-count="result">0</span>
+      </button>
+      <button type="button" class="filter-chip" data-filter="defect">
+        <i class="chip-dot dot-defect" aria-hidden="true"></i>유출불량 <span class="chip-count" data-count="defect">0</span>
+      </button>
+      <button type="button" class="filter-chip" data-filter="product">
+        <i class="chip-dot dot-product" aria-hidden="true"></i>제품 판매 <span class="chip-count" data-count="product">0</span>
+      </button>
+      <button type="button" class="filter-chip" data-filter="material">
+        <i class="chip-dot dot-material" aria-hidden="true"></i>소재 구매 <span class="chip-count" data-count="material">0</span>
+      </button>
+    </div>
+
+    <!-- 목록 -->
+    <section class="list-section" aria-live="polite">
+      <div class="list-head">
+        <h2 id="listTitle">전체 기록</h2>
+        <p id="resultCount" class="result-count"></p>
+      </div>
+
+      <div id="postGrid" class="post-grid"></div>
+
+      <div id="emptyState" class="empty" hidden>
+        <div class="empty-icon" aria-hidden="true">📋</div>
+        <h3 id="emptyTitle">기록이 없습니다</h3>
+        <p id="emptyDesc">검색어나 카테고리를 바꿔 보세요.</p>
+        <button type="button" class="btn btn-primary" data-action="new-post" id="emptyNewBtn" hidden>첫 기록 작성하기</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><strong>전우정밀</strong> · 정밀 프레스 부품 제조</p>
+    <p class="footer-dim">생산 이력 공유 포털 · 내부 열람용</p>
+  </footer>
+</div>
+
+<!-- ===================== 관리자 로그인 ===================== -->
+<div id="adminLoginModal" class="modal" hidden>
+  <div class="modal-backdrop" data-action="close-modal" data-modal="adminLoginModal"></div>
+  <div class="modal-card modal-sm" role="dialog" aria-modal="true" aria-labelledby="adminLoginTitle">
+    <button type="button" class="modal-close" data-action="close-modal" data-modal="adminLoginModal" aria-label="닫기">×</button>
+    <div class="modal-head">
+      <span class="modal-badge badge-admin">관리자</span>
+      <h2 id="adminLoginTitle">관리자 로그인</h2>
+      <p>게시글 작성 · 수정 · 삭제 권한이 부여됩니다.</p>
+    </div>
+    <form id="adminForm" class="form" autocomplete="off" novalidate>
+      <label class="field-label" for="adminPassword">관리자 비밀번호</label>
+      <div class="pw-field">
+        <input id="adminPassword" type="password" placeholder="관리자 비밀번호" autocomplete="current-password" required>
+        <button type="button" class="pw-toggle" data-action="toggle-pw" data-target="adminPassword" aria-label="비밀번호 표시">보기</button>
+      </div>
+      <p id="adminError" class="form-error" role="alert" hidden></p>
+      <button type="submit" class="btn btn-primary btn-block">로그인</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== 게시글 상세 ===================== -->
+<div id="detailModal" class="modal" hidden>
+  <div class="modal-backdrop" data-action="close-modal" data-modal="detailModal"></div>
+  <div class="modal-card modal-lg" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <button type="button" class="modal-close" data-action="close-modal" data-modal="detailModal" aria-label="닫기">×</button>
+    <div id="detailBody"></div>
+  </div>
+</div>
+
+<!-- ===================== 글쓰기 / 수정 ===================== -->
+<div id="editorModal" class="modal" hidden>
+  <div class="modal-backdrop" data-action="close-modal" data-modal="editorModal"></div>
+  <div class="modal-card modal-lg" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
+    <button type="button" class="modal-close" data-action="close-modal" data-modal="editorModal" aria-label="닫기">×</button>
+    <div class="modal-head">
+      <span class="modal-badge badge-admin">관리자</span>
+      <h2 id="editorTitle">새 기록 작성</h2>
+      <p id="editorSub">카테고리를 고르면 입력 항목이 바뀝니다.</p>
+    </div>
+
+    <form id="editorForm" class="form editor-form" novalidate>
+      <div class="form-row">
+        <div class="form-field">
+          <label class="field-label" for="postCategory">카테고리 <span class="req">*</span></label>
+          <select id="postCategory" required>
+            <optgroup label="생산관리">
+              <option value="plan">생산계획</option>
+              <option value="result">생산실적</option>
+            </optgroup>
+            <optgroup label="품질관리">
+              <option value="defect">유출불량 히스토리</option>
+            </optgroup>
+            <optgroup label="영업·자재">
+              <option value="product">제품 월별판매량</option>
+              <option value="material">소재 월별구매량</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="postAuthor">작성자</label>
+          <input id="postAuthor" type="text" maxlength="20" placeholder="김현준">
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="field-label" for="postTitle">제목 <span class="req">*</span></label>
+        <input id="postTitle" type="text" maxlength="80" placeholder="예: 11월 제품 월별판매량" required>
+      </div>
+
+      <div id="metaFields" class="meta-fields"></div>
+
+      <div class="form-field">
+        <label class="field-label" for="postContent">내용</label>
+        <textarea id="postContent" rows="5" maxlength="3000"
+          placeholder="공유할 내용을 적어 주세요. (특이사항, 조치 결과 등)"></textarea>
+        <p class="hint"><span id="contentCount">0</span> / 3000</p>
+      </div>
+
+      <div class="form-field">
+        <div class="upload-head">
+          <label class="field-label" for="imageInput">이미지 <span class="opt">(선택 · 최대 <span id="maxFilesLabel">8</span>장)</span></label>
+          <span id="uploadHint" class="hint"></span>
+        </div>
+
+        <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="이미지 선택 또는 끌어다 놓기">
+          <span class="drop-icon" aria-hidden="true">🖼</span>
+          <p><strong>클릭</strong>하거나 이미지를 <strong>끌어다 놓으세요</strong></p>
+          <p class="hint">JPG · PNG · WEBP · SVG / 자동으로 용량을 줄여 저장합니다.</p>
+          <input id="imageInput" type="file" accept="image/*" multiple hidden>
+        </div>
+
+        <div id="imagePreview" class="image-preview"></div>
+      </div>
+
+      <p id="editorError" class="form-error" role="alert" hidden></p>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" data-action="close-modal" data-modal="editorModal">취소</button>
+        <button type="submit" class="btn btn-primary" id="saveBtn">저장하기</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== 삭제 확인 ===================== -->
+<div id="confirmModal" class="modal" hidden>
+  <div class="modal-backdrop" data-action="close-modal" data-modal="confirmModal"></div>
+  <div class="modal-card modal-sm" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal-head">
+      <h2 id="confirmTitle">기록을 삭제할까요?</h2>
+      <p id="confirmDesc">삭제한 기록은 되돌릴 수 없습니다.</p>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-ghost" data-action="close-modal" data-modal="confirmModal">취소</button>
+      <button type="button" class="btn btn-danger" id="confirmDeleteBtn">삭제</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 이미지 라이트박스 ===================== -->
+<div id="lightbox" class="lightbox" hidden>
+  <div class="lightbox-bar">
+    <span id="lightboxCounter" class="lightbox-counter">1 / 1</span>
+    <button type="button" class="lightbox-btn" data-action="lightbox-close" aria-label="닫기">×</button>
+  </div>
+  <button type="button" class="lightbox-nav prev" data-action="lightbox-prev" aria-label="이전 이미지">‹</button>
+  <figure class="lightbox-figure">
+    <img id="lightboxImg" src="" alt="">
+    <figcaption id="lightboxCaption"></figcaption>
+  </figure>
+  <button type="button" class="lightbox-nav next" data-action="lightbox-next" aria-label="다음 이미지">›</button>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

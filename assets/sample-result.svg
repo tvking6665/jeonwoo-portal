@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" role="img" aria-label="11월 3주차 계획 대비 생산실적 막대 차트">
+  <defs>
+    <linearGradient id="planBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#dbe6fb"/>
+      <stop offset="1" stop-color="#c3d5f5"/>
+    </linearGradient>
+    <linearGradient id="actBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#17bf92"/>
+      <stop offset="1" stop-color="#0b8f6c"/>
+    </linearGradient>
+    <linearGradient id="warnBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- header -->
+  <rect width="960" height="76" fill="#0b1b3a"/>
+  <rect x="32" y="20" width="4" height="38" rx="2" fill="#12b489"/>
+  <text x="50" y="32" fill="#8fb0ee" font-family="'Segoe UI', Arial, sans-serif" font-size="10.5" font-weight="600" letter-spacing="3.2">JEONWOO PRECISION · WEEKLY OUTPUT</text>
+  <text x="50" y="60" fill="#ffffff" font-family="'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="21" font-weight="700">11월 3주차 생산실적</text>
+  <text x="928" y="34" text-anchor="end" fill="#b9c9e8" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5">2026.11.16 – 11.20</text>
+  <text x="928" y="56" text-anchor="end" fill="#7f9ac4" font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif" font-size="11.5">1·2호 프레스 라인</text>
+
+  <!-- section head + legend -->
+  <text x="32" y="112" fill="#0f1b2d" font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif" font-size="13.5" font-weight="700">일자별 계획 대비 실적</text>
+  <g font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif" font-size="11.5">
+    <rect x="700" y="99" width="12" height="12" rx="3" fill="url(#planBar)"/>
+    <text x="719" y="109" fill="#64748b">계획</text>
+    <rect x="766" y="99" width="12" height="12" rx="3" fill="url(#actBar)"/>
+    <text x="785" y="109" fill="#64748b">실적</text>
+    <rect x="832" y="99" width="12" height="12" rx="3" fill="url(#warnBar)"/>
+    <text x="851" y="109" fill="#64748b">미달</text>
+  </g>
+
+  <!-- grid -->
+  <g stroke="#eef2f8" stroke-width="1">
+    <line x1="100" y1="170" x2="900" y2="170"/>
+    <line x1="100" y1="253.3" x2="900" y2="253.3"/>
+    <line x1="100" y1="336.7" x2="900" y2="336.7"/>
+  </g>
+  <line x1="100" y1="420" x2="900" y2="420" stroke="#cfd7e3" stroke-width="1.5"/>
+
+  <!-- y labels -->
+  <g font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#94a3b8" text-anchor="end">
+    <text x="88" y="424">0</text>
+    <text x="88" y="340.7">1,000</text>
+    <text x="88" y="257.3">2,000</text>
+    <text x="88" y="174">3,000</text>
+  </g>
+
+  <!-- bars -->
+  <g>
+    <!-- 월 -->
+    <rect x="134" y="220" width="42" height="200" rx="5" fill="url(#planBar)"/>
+    <rect x="184" y="221.7" width="42" height="198.3" rx="5" fill="url(#actBar)"/>
+    <!-- 화 -->
+    <rect x="279" y="220" width="42" height="200" rx="5" fill="url(#planBar)"/>
+    <rect x="329" y="219.2" width="42" height="200.8" rx="5" fill="url(#actBar)"/>
+    <!-- 수 -->
+    <rect x="424" y="220" width="42" height="200" rx="5" fill="url(#planBar)"/>
+    <rect x="474" y="215.8" width="42" height="204.2" rx="5" fill="url(#actBar)"/>
+    <!-- 목 -->
+    <rect x="569" y="220" width="42" height="200" rx="5" fill="url(#planBar)"/>
+    <rect x="619" y="255" width="42" height="165" rx="5" fill="url(#warnBar)"/>
+    <!-- 금 -->
+    <rect x="714" y="220" width="42" height="200" rx="5" fill="url(#planBar)"/>
+    <rect x="764" y="224.3" width="42" height="195.7" rx="5" fill="url(#actBar)"/>
+  </g>
+
+  <!-- value labels -->
+  <g font-family="'Segoe UI', Arial, sans-serif" font-size="10.5" fill="#64748b" text-anchor="middle">
+    <text x="205" y="212">2,380</text>
+    <text x="350" y="209">2,410</text>
+    <text x="495" y="206">2,450</text>
+    <text x="640" y="245" fill="#b45309">1,980</text>
+    <text x="785" y="214">2,348</text>
+  </g>
+
+  <!-- Thursday callout -->
+  <g>
+    <line x1="640" y1="238" x2="672" y2="196" stroke="#d97706" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <rect x="672" y="182" width="176" height="24" rx="6" fill="#fff7e6" stroke="#f3d9a4"/>
+    <text x="760" y="198" text-anchor="middle" fill="#a16207" font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif" font-size="11" font-weight="700">금형 마모 · 2시간 정지</text>
+  </g>
+
+  <!-- day labels -->
+  <g font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif" text-anchor="middle" font-size="12">
+    <text x="180" y="444" fill="#334155" font-weight="700">월 11.16</text>
+    <text x="325" y="444" fill="#334155" font-weight="700">화 11.17</text>
+    <text x="470" y="444" fill="#334155" font-weight="700">수 11.18</text>
+    <text x="615" y="444" fill="#334155" font-weight="700">목 11.19</text>
+    <text x="760" y="444" fill="#334155" font-weight="700">금 11.20</text>
+  </g>
+
+  <!-- footer summary -->
+  <line x1="0" y1="462" x2="960" y2="462" stroke="#e4eaf3"/>
+  <g font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+    <text x="32" y="492" fill="#94a3b8" font-size="11.5">계획</text>
+    <text x="32" y="514" fill="#0f1b2d" font-size="17" font-weight="700">12,000 EA</text>
+
+    <text x="190" y="492" fill="#94a3b8" font-size="11.5">실적</text>
+    <text x="190" y="514" fill="#0f1b2d" font-size="17" font-weight="700">11,568 EA</text>
+
+    <text x="350" y="492" fill="#94a3b8" font-size="11.5">달성률</text>
+    <text x="350" y="514" fill="#0e9f7a" font-size="17" font-weight="700">96.4%</text>
+    <rect x="424" y="502" width="96" height="6" rx="3" fill="#e2e8f0"/>
+    <rect x="424" y="502" width="92.5" height="6" rx="3" fill="#0e9f7a"/>
+
+    <text x="600" y="492" fill="#94a3b8" font-size="11.5">미달 수량</text>
+    <text x="600" y="514" fill="#b45309" font-size="17" font-weight="700">432 EA</text>
+
+    <text x="760" y="492" fill="#94a3b8" font-size="11.5">비고</text>
+    <text x="760" y="514" fill="#334155" font-size="12">대체 금형 교체 후 만회 생산</text>
+  </g>
+</svg>
