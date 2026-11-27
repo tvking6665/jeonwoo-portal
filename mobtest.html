@@ -7,9 +7,9 @@ iframe { border:0; background:#fff; display:block; }
 pre { color:#9fe; font-size:12px; }
 </style></head>
 <body>
-<div class="col"><div>390</div><iframe id="f390" src="index.html" width="390" height="844"></iframe></div>
-<div class="col"><div>768</div><iframe id="f768" src="index.html" width="768" height="900"></iframe></div>
-<div class="col"><div>1024</div><iframe id="f1024" src="index.html" width="1024" height="800"></iframe></div>
+<div class="col"><div>390</div><iframe id="f390" src="index.html?cb=1" width="390" height="844"></iframe></div>
+<div class="col"><div>768</div><iframe id="f768" src="index.html?cb=1" width="768" height="900"></iframe></div>
+<div class="col"><div>1024</div><iframe id="f1024" src="index.html?cb=1" width="1024" height="800"></iframe></div>
 <pre id="out">measuring…</pre>
 <script>
 const PW = 'jwjm1234';
@@ -44,5 +44,8 @@ window.addEventListener('load', () => {
     setTimeout(measure, 1200);
   }, 700);
 });
+</script>
+<script>
+document.querySelectorAll('iframe').forEach(f => { f.src = 'index.html?cb=' + Date.now(); });
 </script>
 </body></html>
