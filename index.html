@@ -7,7 +7,7 @@
 <title>전우정밀 · 생산 이력 공유 포털</title>
 <meta name="description" content="전우정밀 생산계획 · 생산실적 · 유출불량 히스토리 · 제품 월별판매량 · 소재 월별구매량 공유 포털">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css?v=20261127b">
+<link rel="stylesheet" href="styles.css?v=20261127c">
 </head>
 <body>
 
@@ -179,6 +179,141 @@
       <span class="banner-icon" aria-hidden="true">ⓘ</span>
       <p><strong>데모 모드</strong> — 지금은 이 브라우저에만 저장됩니다. <code>config.js</code>에 Supabase 정보를 넣으면 팀원과 실시간으로 공유됩니다.</p>
     </div>
+
+    <!-- ===================== 분석 · 차트 ===================== -->
+    <section class="analytics" id="analytics" aria-label="생산 분석 대시보드">
+      <div class="an-head">
+        <div>
+          <p class="an-eyebrow" id="anEyebrow">PRODUCTION INSIGHT</p>
+          <h2 class="an-title" id="anTitle">설비별 생산 분석</h2>
+          <p class="an-sub" id="anSub">주차별 계획 대비 실적과 설비별 달성률을 한눈에 봅니다.</p>
+        </div>
+        <div class="an-source" aria-live="polite">
+          <span class="src-badge" id="anSourceBadge">기본 데이터</span>
+          <span class="src-text" id="anSourceText">최종현재수정.xlsx · 주차별_생산요약</span>
+        </div>
+      </div>
+
+      <!-- 생산(전체 · 생산계획 · 생산실적) -->
+      <div class="an-view" id="anProduction">
+        <div class="an-kpis" id="anKpis"></div>
+
+        <div class="xl-panel" id="xlPanel" hidden>
+          <div class="xl-drop" id="xlDrop" role="button" tabindex="0"
+               aria-label="생산계획·실적 엑셀 업로드 — 클릭하거나 파일을 끌어다 놓으세요">
+            <span class="xl-icon" aria-hidden="true">⇪</span>
+            <div class="xl-copy">
+              <strong>생산계획·실적 엑셀 업로드</strong>
+              <span>.xlsx · .xls · .csv — 「주차별_생산요약」 시트를 자동으로 읽습니다</span>
+            </div>
+            <span class="xl-btn">파일 선택</span>
+            <input id="xlInput" type="file" accept=".xlsx,.xls,.csv" hidden>
+          </div>
+          <div class="xl-foot">
+            <p class="xl-status" id="xlStatus">현재 기본 데이터</p>
+            <button type="button" class="link-btn" id="xlReset" data-an-action="reset-excel" hidden>샘플 데이터로 되돌리기</button>
+          </div>
+        </div>
+        <p class="an-note" id="xlTeamNote">엑셀 업로드·갱신은 관리자 로그인 후 가능합니다.</p>
+
+        <div class="an-grid">
+          <article class="an-panel">
+            <header class="an-panel-head">
+              <div>
+                <h3>설비별 계획 vs 양품실적</h3>
+                <p>막대 — 수량(EA) · 선 — 달성률(%)</p>
+              </div>
+              <span class="an-tag" id="anPeriodTag"></span>
+            </header>
+            <p class="chart-hint">← 차트를 좌우로 넘겨 설비 11개를 모두 볼 수 있습니다 →</p>
+            <div class="chart-wrap">
+              <div class="chart-box chart-tall chart-scrollable">
+                <div class="chart-scroller">
+                  <canvas id="chartMachines" role="img" aria-label="설비별 계획량 대비 양품실적과 달성률 차트"></canvas>
+                </div>
+              </div>
+              <span class="chart-fade" aria-hidden="true"></span>
+            </div>
+          </article>
+
+          <article class="an-panel">
+            <header class="an-panel-head">
+              <div>
+                <h3>주차별 생산 추이</h3>
+                <p>주차별 계획 · 양품 · 불량</p>
+              </div>
+            </header>
+            <div class="chart-box">
+              <canvas id="chartWeekly" role="img" aria-label="주차별 계획·양품·불량 추이 차트"></canvas>
+            </div>
+          </article>
+        </div>
+
+        <article class="an-panel">
+          <header class="an-panel-head">
+            <div>
+              <h3>설비별 요약</h3>
+              <p id="anTableSub">월간 발주량 대비 계획 · 실적 · 달성률</p>
+            </div>
+          </header>
+          <p class="table-hint">표는 좌우로 넘겨 볼 수 있습니다.</p>
+          <div class="table-scroll">
+            <table class="an-table" id="anTable">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+
+      <!-- 제품 월별판매량 · 소재 월별구매량 -->
+      <div class="an-view" id="anMonthly" hidden>
+        <div class="an-kpis" id="anMonthlyKpis"></div>
+        <article class="an-panel">
+          <header class="an-panel-head">
+            <div>
+              <h3 id="anMonthlyTitle">제품 월별판매량 추이</h3>
+              <p id="anMonthlySub">월별 판매 수량</p>
+            </div>
+          </header>
+          <div class="chart-box chart-tall">
+            <canvas id="chartMonthly" role="img" aria-label="월별 수량 추이 차트"></canvas>
+          </div>
+          <p class="an-footnote" id="anMonthlyNote"></p>
+        </article>
+        <article class="an-panel">
+          <header class="an-panel-head">
+            <div>
+              <h3>월별 상세</h3>
+              <p>등록된 기록과 월별 합계</p>
+            </div>
+          </header>
+          <p class="table-hint">표는 좌우로 넘겨 볼 수 있습니다.</p>
+          <div class="table-scroll">
+            <table class="an-table" id="anMonthlyTable">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+
+      <!-- 유출불량 -->
+      <div class="an-view" id="anDefect" hidden>
+        <div class="an-kpis" id="anDefectKpis"></div>
+        <article class="an-panel">
+          <header class="an-panel-head">
+            <div>
+              <h3>월별 유출불량 건수</h3>
+              <p>등록된 유출불량 기록 기준</p>
+            </div>
+          </header>
+          <div class="chart-box chart-short">
+            <canvas id="chartDefect" role="img" aria-label="월별 유출불량 건수 차트"></canvas>
+          </div>
+        </article>
+      </div>
+    </section>
 
     <!-- 검색 · 정렬 -->
     <section class="toolbar" aria-label="검색 및 정렬">
@@ -380,7 +515,15 @@
 
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
+<!-- 엑셀 파서(SheetJS) · 차트(Chart.js) — 저장소 사본 우선, 없으면 CDN에서 보충 -->
+<script src="assets/vendor/xlsx.full.min.js?v=20261127c"></script>
+<script>if (!window.XLSX) { document.write('<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"><\/script>'); }</script>
+<script src="assets/vendor/chart.umd.min.js?v=20261127c"></script>
+<script>if (!window.Chart) { document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"><\/script>'); }</script>
+
 <script src="config.js"></script>
-<script src="app.js?v=20261127"></script>
+<script src="assets/seed-data.js?v=20261127c"></script>
+<script src="analytics.js?v=20261127c"></script>
+<script src="app.js?v=20261127c"></script>
 </body>
 </html>

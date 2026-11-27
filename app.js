@@ -662,6 +662,10 @@
     $("#adminPassword").value = "";
     setGateError("");
     applyRole();
+    if (window.JeonwooAnalytics) {
+      window.JeonwooAnalytics.setRole(role);
+      window.JeonwooAnalytics.render(state.filter);
+    }
     loadPosts();
   }
 
@@ -673,6 +677,7 @@
     $("#newPostBtn").hidden = !isAdmin;
     $("#adminLoginBtn").hidden = isAdmin;
     $("#emptyNewBtn").hidden = !isAdmin;
+    if (window.JeonwooAnalytics) window.JeonwooAnalytics.setRole(state.role);
   }
 
   function setGateError(message) {
@@ -777,6 +782,10 @@
     renderTabs();
     renderList();
     applyRole();
+    if (window.JeonwooAnalytics) {
+      window.JeonwooAnalytics.onPosts(state.posts);
+      window.JeonwooAnalytics.render(state.filter);
+    }
   }
 
   function renderStats() {
@@ -1234,6 +1243,7 @@
       renderStats();
       renderTabs();
       renderList();
+      if (window.JeonwooAnalytics) window.JeonwooAnalytics.onPosts(state.posts);
       toast(existing ? "기록을 수정했습니다." : "새 기록을 등록했습니다.");
       setTimeout(function () { state.lastSavedId = null; }, 2500);
     }).catch(function (err) {
@@ -1413,6 +1423,7 @@
     state.filter = filter;
     renderTabs();
     renderList();
+    if (window.JeonwooAnalytics) window.JeonwooAnalytics.render(filter);
     setNavOpen(false);
 
     /* 모바일에서는 메뉴를 닫고 목록 위치로 이동 */
@@ -1714,6 +1725,7 @@
     $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
     applyRole();
     bindEvents();
+    if (window.JeonwooAnalytics) window.JeonwooAnalytics.init();
 
     var saved = null;
     try { saved = sessionStorage.getItem(CFG.storage.sessionKey); } catch (err) { /* ignore */ }
@@ -1734,5 +1746,8 @@
   document.addEventListener("DOMContentLoaded", boot);
 
   /* 테스트/디버깅용 (필요 없으면 지워도 됩니다) */
-  window.JEONWOO_APP = { state: state, Store: Store, CFG: CFG, openEditor: openEditor, openDetail: openDetail };
+  window.JEONWOO_APP = {
+    state: state, Store: Store, CFG: CFG,
+    openEditor: openEditor, openDetail: openDetail, toast: toast,
+  };
 })();
