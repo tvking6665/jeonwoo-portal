@@ -1241,19 +1241,31 @@ select {
   .nav-sub-list button.is-current { background: #fff; box-shadow: inset 0 0 0 1px var(--green); }
 }
 
-/* 태블릿: 2단 유지, 간격만 줄입니다 */
+/* 태블릿: jwjm.com 배너처럼 이미지를 상단 스트립으로 올리고 아래에 타이틀·스탯 */
 @media (max-width: 1023px) {
   .hero {
-    grid-template-columns: minmax(0, .84fr) minmax(0, 1.16fr);
-    column-gap: 22px;
-    min-height: 356px;
-    padding: 26px 24px 24px;
+    display: block;
+    min-height: 0;
+    padding: 0;
     border-radius: 18px;
   }
+  .hero-visual {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    width: 100%;
+    aspect-ratio: 1641 / 616;
+    background-size: cover;
+    background-position: center center;
+  }
+  .hero-visual::after {
+    background: linear-gradient(180deg, rgba(4, 9, 18, .12) 0%, rgba(4, 9, 18, .06) 55%, rgba(7, 13, 24, .96) 100%);
+  }
+  .hero-copy { padding: 8px 24px 0; }
   .hero-eyebrow { font-size: 9.5px; letter-spacing: .14em; margin-bottom: 8px; }
   .hero-copy h1 { font-size: 24px; }
   .overview-sub { font-size: 12.5px; }
-  .overview-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .overview-stats { padding: 20px 24px 24px; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
   .stat { padding: 9px 11px 8px; }
   .stat-label { font-size: 11px; }
   .stat-value { font-size: 19px; }
@@ -1293,13 +1305,13 @@ select {
     z-index: 0;
     width: 100%;
     aspect-ratio: 2.2 / 1;
-    background-size: cover;
-    background-position: 100% 50%;
+    background-size: auto 150%;
+    background-position: 100% 44%;
   }
   .hero-visual::after {
     background:
-      linear-gradient(90deg, rgba(7, 13, 24, .95) 0%, rgba(7, 13, 24, .52) 20%, rgba(7, 13, 24, 0) 42%),
-      linear-gradient(180deg, rgba(4, 9, 18, .12) 0%, rgba(4, 9, 18, .04) 58%, rgba(7, 13, 24, 1) 100%);
+      linear-gradient(90deg, rgba(7, 13, 24, .78) 0%, rgba(7, 13, 24, .3) 26%, rgba(7, 13, 24, 0) 52%),
+      linear-gradient(180deg, rgba(4, 9, 18, .1) 0%, rgba(4, 9, 18, .03) 58%, rgba(7, 13, 24, 1) 100%);
   }
   .hero-copy { padding: 14px 18px 0; }
   .hero-eyebrow { font-size: 9.5px; letter-spacing: .14em; margin-bottom: 8px; }
