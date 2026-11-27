@@ -1601,3 +1601,17 @@ select {
   }
   .table-hint { margin: 0 0 6px; }
 }
+
+/* 모바일: 차트 범례를 캔버스 밖으로 (가로 스크롤과 무관하게 고정) */
+.an-legend { display: none; }
+@media (max-width: 720px) {
+  .an-legend {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+    margin-top: 10px; font-size: 11.5px; font-weight: 600; color: #46536b;
+  }
+  .an-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .lg-bar { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .lg-plan { background: #b9ccf8; border: 1px solid #93aeee; }
+  .lg-good { background: #1f4ed8; }
+  .lg-line { width: 14px; height: 3px; border-radius: 2px; background: #0e9f7a; display: inline-block; }
+}

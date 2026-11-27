@@ -858,7 +858,7 @@
     var mobile = smallScreen();
     var opts = baseOptions({
       plugins: {
-        legend: baseOptions().plugins.legend,
+        legend: Object.assign({}, baseOptions().plugins.legend, { display: !mobile }),
         tooltip: Object.assign(tooltipStyle(), {
           callbacks: {
             label: function (c) {
